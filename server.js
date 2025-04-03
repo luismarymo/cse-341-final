@@ -28,6 +28,9 @@ process.on("uncaughtException", (err, origin) => {
   );
 });
 
+const routes = require('./routes/index'); 
+app.use('/', routes); 
+
 mongodb.initDb((err) => {
   if (err) {
     console.log(err);
