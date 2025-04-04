@@ -1,6 +1,24 @@
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
+/**
+ * @swagger
+ * /staff:
+ *   get:
+ *     summary: Get all staff members
+ *     description: Retrieve a list of all staff members
+ *     responses:
+ *       200:
+ *         description: A JSON array of staff members
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Staff'
+ *       400:
+ *         description: Bad request
+ */
 const getAll = async (req, res) => {
   try {
     const result = await mongodb.getDatabase().db().collection("staff").find();
@@ -13,6 +31,30 @@ const getAll = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /staff/{id}:
+ *   get:
+ *     summary: Get a single staff member by ID
+ *     description: Retrieve details of a specific staff member
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Staff member details returned
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Staff'
+ *       404:
+ *         description: Staff member not found
+ *       500:
+ *         description: Invalid ID format or database error
+ */
 const getSingle = async (req, res) => {
   try {
     const staffId = new ObjectId(req.params.id);
@@ -22,49 +64,108 @@ const getSingle = async (req, res) => {
       res.setHeader('content-Type', 'application/json');
       res.status(200).json(result);
     } else {
-      res.status(404).json({ message: ' not found' });
+      res.status(404).json({ message: 'Staff member not found' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Invalid ID format or database error' });
   }
 };
 
+/**
+ * @swagger
+ * /staff:
+ *   post:
+ *     summary: Create a new staff member
+ *     description: Add a new staff member to the database
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Staff'
+ *     responses:
+ *       204:
+ *         description: Staff member successfully created
+ *       500:
+ *         description: Internal server error
+ */
 const createStaff = async (req, res) => {
   const staff = {
-    
+    // Define staff properties here
   };
   const response = await mongodb.getDatabase().db().collection("staff").insertOne(staff);
   if(response.acknowledged){
     res.status(204).send();
   } else{
-    res.status(500).json(response.error || 'Some error ocurred while updating the staff information');
+    res.status(500).json(response.error || 'Some error occurred while updating the staff information');
   }
-
 };
 
+/**
+ * @swagger
+ * /staff/{id}:
+ *   put:
+ *     summary: Update a staff member by ID
+ *     description: Modify an existing staff member's details
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Staff'
+ *     responses:
+ *       204:
+ *         description: Staff member successfully updated
+ *       500:
+ *         description: Error updating staff member
+ */
 const updateStaff = async (req, res) => {
 const staffId = new ObjectId(req.params.id);
 const staff = {
-    };
-const response = await mongodb.getDatabase().db().collection("bookings").replaceOne({_id:staffId},staff);
+  // Define staff properties here
+  };
+const response = await mongodb.getDatabase().db().collection("staff").replaceOne({_id:staffId},staff);
 if(response.modifiedCount > 0){
   res.status(204).send();
 } else{
-  res.status(500).json(response.error || 'Some error ocurred while updating the staff information');
+  res.status(500).json(response.error || 'Some error occurred while updating the staff information');
 }
-
 };
 
+/**
+ * @swagger
+ * /staff/{id}:
+ *   delete:
+ *     summary: Delete a staff member by ID
+ *     description: Remove a staff member from the database
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Staff member successfully deleted
+ *       500:
+ *         description: Error deleting staff member
+ */
 const deleteStaff = async (req, res) => {
   const staffId = new ObjectId(req.params.id);
   const response = await mongodb.getDatabase().db().collection("staff").deleteOne({_id:staffId});
   if (response.deletedCount > 0) {
     res.status(204).send();
   } else{
-    res.status(500).json(response.error || 'Some error ocurred while deleting the staff information.');
+    res.status(500).json(response.error || 'Some error occurred while deleting the staff information.');
   }
-  
 };
+
 module.exports = {
   getAll,
   getSingle,

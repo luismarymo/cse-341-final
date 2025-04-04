@@ -1,6 +1,24 @@
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
+/**
+ * @swagger
+ * /rooms:
+ *   get:
+ *     summary: Get all rooms
+ *     description: Retrieve a list of all available rooms
+ *     responses:
+ *       200:
+ *         description: A JSON array of rooms
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Room'
+ *       400:
+ *         description: Bad request
+ */
 const getAll = async (req, res) => {
   try {
     const result = await mongodb.getDatabase().db().collection("rooms").find();
@@ -13,6 +31,30 @@ const getAll = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /rooms/{id}:
+ *   get:
+ *     summary: Get a single room by ID
+ *     description: Retrieve details of a specific room
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Room details returned
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Room'
+ *       404:
+ *         description: Room not found
+ *       500:
+ *         description: Invalid ID format or database error
+ */
 const getSingle = async (req, res) => {
   try {
     const roomId = new ObjectId(req.params.id);
@@ -29,6 +71,24 @@ const getSingle = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /rooms:
+ *   post:
+ *     summary: Create a new room
+ *     description: Add a new room to the database
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Room'
+ *     responses:
+ *       204:
+ *         description: Room successfully created
+ *       500:
+ *         description: Internal server error
+ */
 const createRoom = async (req, res) => {
   const room = {
     roomNumber: req.body.roomNumber,
@@ -43,11 +103,34 @@ const createRoom = async (req, res) => {
   if(response.acknowledged){
     res.status(204).send();
   } else{
-    res.status(500).json(response.error || 'Some error ocurred while updating the room information');
+    res.status(500).json(response.error || 'Some error occurred while updating the room information');
   }
-
 };
 
+/**
+ * @swagger
+ * /rooms/{id}:
+ *   put:
+ *     summary: Update a room by ID
+ *     description: Modify an existing room's details
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Room'
+ *     responses:
+ *       204:
+ *         description: Room successfully updated
+ *       500:
+ *         description: Error updating room
+ */
 const updateRoom = async (req, res) => {
 const roomId = new ObjectId(req.params.id);
 const room = {
@@ -63,21 +146,38 @@ const response = await mongodb.getDatabase().db().collection("rooms").replaceOne
 if(response.modifiedCount > 0){
   res.status(204).send();
 } else{
-  res.status(500).json(response.error || 'Some error ocurred while updating the room information');
+  res.status(500).json(response.error || 'Some error occurred while updating the room information');
 }
-
 };
 
+/**
+ * @swagger
+ * /rooms/{id}:
+ *   delete:
+ *     summary: Delete a room by ID
+ *     description: Remove a room from the database
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Room successfully deleted
+ *       500:
+ *         description: Error deleting room
+ */
 const deleteRoom = async (req, res) => {
   const roomId = new ObjectId(req.params.id);
   const response = await mongodb.getDatabase().db().collection("rooms").deleteOne({_id:roomId});
   if (response.deletedCount > 0) {
     res.status(204).send();
   } else{
-    res.status(500).json(response.error || 'Some error ocurred while deleting the room information.');
+    res.status(500).json(response.error || 'Some error occurred while deleting the room information.');
   }
-  
 };
+
 module.exports = {
   getAll,
   getSingle,
