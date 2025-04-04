@@ -13,7 +13,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://hotel-management-api-f3q4.onrender.com",
+        url: "http://localhost:5000",
       },
     ],
     tags: [

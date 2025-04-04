@@ -6,7 +6,7 @@ const ObjectId = require("mongodb").ObjectId;
  * /rooms:
  *   get:
  *     summary: Get all rooms
- *     description: Retrieve a list of all available rooms
+ *     description: Retrieve a list of all rooms
  *     tags: [Rooms]
  *     responses:
  *       200:
@@ -79,6 +79,47 @@ const getSingle = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * @swagger
+ * /rooms/available:
+ *   get:
+ *     summary: Get all available rooms rooms
+ *     description: Retrieve a list of all available rooms
+ *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: A JSON array of rooms
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Room'
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: No available rooms
+ */
+const getAllAvailable = async (req, res) => {
+  try {
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("rooms")
+      .find({ availability: true });
+    result.toArray().then((rooms) => {
+      if (rooms.length === 0) {
+        return res.status(404).json({ message: "No available rooms found." });
+      }
+
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(rooms);
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -236,6 +277,7 @@ const deleteRoom = async (req, res) => {
 module.exports = {
   getAll,
   getSingle,
+  getAllAvailable,
   createRoom,
   updateRoom,
   deleteRoom,
