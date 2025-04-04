@@ -58,16 +58,20 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
   try {
     const staffId = new ObjectId(req.params.id);
-    const result = await mongodb.getDatabase().db().collection('staff').findOne({ _id: staffId });
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("staff")
+      .findOne({ _id: staffId });
 
     if (result) {
-      res.setHeader('content-Type', 'application/json');
+      res.setHeader("content-Type", "application/json");
       res.status(200).json(result);
     } else {
-      res.status(404).json({ message: 'Staff member not found' });
+      res.status(404).json({ message: "Staff member not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Invalid ID format or database error' });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -91,13 +95,28 @@ const getSingle = async (req, res) => {
  */
 const createStaff = async (req, res) => {
   const staff = {
-    // Define staff properties here
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    role: req.body.role,
+    email: req.body.email,
+    salary: req.body.salary,
+    status: req.body.status,
+    hireDate: req.body.hireDate,
   };
-  const response = await mongodb.getDatabase().db().collection("staff").insertOne(staff);
-  if(response.acknowledged){
+  const response = await mongodb
+    .getDatabase()
+    .db()
+    .collection("staff")
+    .insertOne(staff);
+  if (response.acknowledged) {
     res.status(204).send();
-  } else{
-    res.status(500).json(response.error || 'Some error occurred while updating the staff information');
+  } else {
+    res
+      .status(500)
+      .json(
+        response.error ||
+          "Some error occurred while updating the staff information",
+      );
   }
 };
 
@@ -126,16 +145,31 @@ const createStaff = async (req, res) => {
  *         description: Error updating staff member
  */
 const updateStaff = async (req, res) => {
-const staffId = new ObjectId(req.params.id);
-const staff = {
-  // Define staff properties here
+  const staffId = new ObjectId(req.params.id);
+  const staff = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    role: req.body.role,
+    email: req.body.email,
+    salary: req.body.salary,
+    status: req.body.status,
+    hireDate: req.body.hireDate,
   };
-const response = await mongodb.getDatabase().db().collection("staff").replaceOne({_id:staffId},staff);
-if(response.modifiedCount > 0){
-  res.status(204).send();
-} else{
-  res.status(500).json(response.error || 'Some error occurred while updating the staff information');
-}
+  const response = await mongodb
+    .getDatabase()
+    .db()
+    .collection("staff")
+    .replaceOne({ _id: staffId }, staff);
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res
+      .status(500)
+      .json(
+        response.error ||
+          "Some error occurred while updating the staff information",
+      );
+  }
 };
 
 /**
@@ -158,11 +192,20 @@ if(response.modifiedCount > 0){
  */
 const deleteStaff = async (req, res) => {
   const staffId = new ObjectId(req.params.id);
-  const response = await mongodb.getDatabase().db().collection("staff").deleteOne({_id:staffId});
+  const response = await mongodb
+    .getDatabase()
+    .db()
+    .collection("staff")
+    .deleteOne({ _id: staffId });
   if (response.deletedCount > 0) {
     res.status(204).send();
-  } else{
-    res.status(500).json(response.error || 'Some error occurred while deleting the staff information.');
+  } else {
+    res
+      .status(500)
+      .json(
+        response.error ||
+          "Some error occurred while deleting the staff information.",
+      );
   }
 };
 
@@ -171,5 +214,5 @@ module.exports = {
   getSingle,
   createStaff,
   updateStaff,
-  deleteStaff
+  deleteStaff,
 };
