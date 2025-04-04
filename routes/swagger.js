@@ -30,6 +30,13 @@ const options = {
       schemas: {
         Room: {
           type: "object",
+          required: [
+            "roomNumber",
+            "type",
+            "pricePerNight",
+            "capacity",
+            "availability",
+          ],
           properties: {
             roomNumber: {
               type: "integer",
@@ -44,6 +51,7 @@ const options = {
             },
             pricePerNight: {
               type: "number",
+              format: "float",
               description: "Price per night",
               example: 120,
             },
@@ -75,6 +83,14 @@ const options = {
         },
         Staff: {
           type: "object",
+          required: [
+            "firstName",
+            "lastName",
+            "role",
+            "salary",
+            "status",
+            "hireDate",
+          ],
           properties: {
             firstName: {
               type: "string",

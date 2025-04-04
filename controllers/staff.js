@@ -52,12 +52,17 @@ const getAll = async (req, res) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Staff'
+ *       400:
+ *         description: Invalid Staff Id
  *       404:
  *         description: Staff member not found
  *       500:
- *         description: Invalid ID format or database error
+ *         description: Internal server error
  */
 const getSingle = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid Staff id to find Staff");
+  }
   try {
     const staffId = new ObjectId(req.params.id);
     const result = await mongodb
@@ -93,6 +98,8 @@ const getSingle = async (req, res) => {
  *     responses:
  *       204:
  *         description: Staff member successfully created
+ *       412:
+ *         description: Precondition Failed
  *       500:
  *         description: Internal server error
  */
@@ -145,10 +152,17 @@ const createStaff = async (req, res) => {
  *     responses:
  *       204:
  *         description: Staff member successfully updated
+ *       400:
+ *         description: Invalid Staff Id
+ *       412:
+ *         description: Precondition Failed
  *       500:
  *         description: Error updating staff member
  */
 const updateStaff = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid Staff id to update Staff");
+  }
   const staffId = new ObjectId(req.params.id);
   const staff = {
     firstName: req.body.firstName,
@@ -192,10 +206,15 @@ const updateStaff = async (req, res) => {
  *     responses:
  *       204:
  *         description: Staff member successfully deleted
+ *       400:
+ *         description: Invalid Staff Id
  *       500:
  *         description: Error deleting staff member
  */
 const deleteStaff = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid Staff id to delete Staff");
+  }
   const staffId = new ObjectId(req.params.id);
   const response = await mongodb
     .getDatabase()

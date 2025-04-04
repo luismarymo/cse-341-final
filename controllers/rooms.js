@@ -52,12 +52,17 @@ const getAll = async (req, res) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Room'
+ *       400:
+ *         description: Invalid Room Id
  *       404:
  *         description: Room not found
  *       500:
- *         description: Invalid ID format or database error
+ *         description: Internal server error
  */
 const getSingle = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid Room id to find a Room");
+  }
   try {
     const roomId = new ObjectId(req.params.id);
     const result = await mongodb
@@ -93,6 +98,8 @@ const getSingle = async (req, res) => {
  *     responses:
  *       204:
  *         description: Room successfully created
+ *       412:
+ *         description: Precondition Failed
  *       500:
  *         description: Internal server error
  */
@@ -145,10 +152,17 @@ const createRoom = async (req, res) => {
  *     responses:
  *       204:
  *         description: Room successfully updated
+ *       400:
+ *         description: Invalid Room Id
+ *       412:
+ *         description: Precondition Failed
  *       500:
  *         description: Error updating room
  */
 const updateRoom = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid Room id to update a Room");
+  }
   const roomId = new ObjectId(req.params.id);
   const room = {
     roomNumber: req.body.roomNumber,
@@ -192,10 +206,15 @@ const updateRoom = async (req, res) => {
  *     responses:
  *       204:
  *         description: Room successfully deleted
+ *       400:
+ *         description: Invalid Room Id
  *       500:
  *         description: Error deleting room
  */
 const deleteRoom = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid Room id to delete a Room");
+  }
   const roomId = new ObjectId(req.params.id);
   const response = await mongodb
     .getDatabase()
