@@ -26,94 +26,95 @@ const options = {
         description: "Manage hotel staff",
       },
     ],
-  },
-  components: {
-    schemas: {
-      Room: {
-        type: "object",
-        properties: {
-          roomNumber: {
-            type: "integer",
-            description: "Room number",
-            example: 201,
-          },
-          type: {
-            type: "string",
-            description:
-              "Type of room (single, double, family room, suite, etc.)",
-            example: "Family Room",
-          },
-          pricePerNight: {
-            type: "number",
-            description: "Price per night",
-            example: 120,
-          },
-          capacity: {
-            type: "integer",
-            description: "Maximum number of guests the room can accommodate",
-            example: 4,
-          },
-          amenities: {
-            type: "array",
-            description: "List of amenities available in the room",
-            items: {
-              type: "string",
+    components: {
+      schemas: {
+        Room: {
+          type: "object",
+          properties: {
+            roomNumber: {
+              type: "integer",
+              description: "Room number",
+              example: 201,
             },
-            example: ["Wi-Fi", "Mini Fridge", "Air Conditioning", "TV"],
-          },
-          availability: {
-            type: "boolean",
-            description: "Indicates if the room is currently available",
-            example: true,
-          },
-          description: {
-            type: "string",
-            description: "A brief description of the room",
-            example: "A large room with two queen beds, perfect for families.",
+            type: {
+              type: "string",
+              description:
+                "Type of room (single, double, family room, suite, etc.)",
+              example: "Family Room",
+            },
+            pricePerNight: {
+              type: "number",
+              description: "Price per night",
+              example: 120,
+            },
+            capacity: {
+              type: "integer",
+              description: "Maximum number of guests the room can accommodate",
+              example: 4,
+            },
+            amenities: {
+              type: "array",
+              description: "List of amenities available in the room",
+              items: {
+                type: "string",
+              },
+              example: ["Wi-Fi", "Mini Fridge", "Air Conditioning", "TV"],
+            },
+            availability: {
+              type: "boolean",
+              description: "Indicates if the room is currently available",
+              example: true,
+            },
+            description: {
+              type: "string",
+              description: "A brief description of the room",
+              example:
+                "A large room with two queen beds, perfect for families.",
+            },
           },
         },
-      },
-      Staff: {
-        type: "object",
-        properties: {
-          firstName: {
-            type: "string",
-            description: "First name of the staff member",
-            example: "Alice",
-          },
-          lastName: {
-            type: "string",
-            description: "Last name of the staff member",
-            example: "Johnson",
-          },
-          role: {
-            type: "string",
-            description: "Job position or role in the hotel",
-            example: "Receptionist",
-          },
-          email: {
-            type: "string",
-            format: "email",
-            description: "Email address of the staff member",
-            example: "alice.johnson@example.com",
-          },
-          salary: {
-            type: "number",
-            format: "float",
-            description: "Monthly salary",
-            example: 3200.0,
-          },
-          status: {
-            type: "string",
-            enum: ["active", "on leave", "retired"],
-            description: "Employment status of the staff member",
-            example: "active",
-          },
-          hireDate: {
-            type: "string",
-            format: "date",
-            description: "Date when the staff member was hired",
-            example: "2022-06-15",
+        Staff: {
+          type: "object",
+          properties: {
+            firstName: {
+              type: "string",
+              description: "First name of the staff member",
+              example: "Alice",
+            },
+            lastName: {
+              type: "string",
+              description: "Last name of the staff member",
+              example: "Johnson",
+            },
+            role: {
+              type: "string",
+              description: "Job position or role in the hotel",
+              example: "Receptionist",
+            },
+            email: {
+              type: "string",
+              format: "email",
+              description: "Email address of the staff member",
+              example: "alice.johnson@example.com",
+            },
+            salary: {
+              type: "number",
+              format: "float",
+              description: "Monthly salary",
+              example: 3200.0,
+            },
+            status: {
+              type: "string",
+              enum: ["active", "on leave", "retired"],
+              description: "Employment status of the staff member",
+              example: "active",
+            },
+            hireDate: {
+              type: "string",
+              format: "date",
+              description: "Date when the staff member was hired",
+              example: "2022-06-15",
+            },
           },
         },
       },

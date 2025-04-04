@@ -7,6 +7,7 @@ const ObjectId = require("mongodb").ObjectId;
  *   get:
  *     summary: Get all staff members
  *     description: Retrieve a list of all staff members
+ *     tags: [Staff]
  *     responses:
  *       200:
  *         description: A JSON array of staff members
@@ -37,6 +38,7 @@ const getAll = async (req, res) => {
  *   get:
  *     summary: Get a single staff member by ID
  *     description: Retrieve details of a specific staff member
+ *     tags: [Staff]
  *     parameters:
  *       - name: id
  *         in: path
@@ -81,6 +83,7 @@ const getSingle = async (req, res) => {
  *   post:
  *     summary: Create a new staff member
  *     description: Add a new staff member to the database
+ *     tags: [Staff]
  *     requestBody:
  *       required: true
  *       content:
@@ -126,6 +129,7 @@ const createStaff = async (req, res) => {
  *   put:
  *     summary: Update a staff member by ID
  *     description: Modify an existing staff member's details
+ *     tags: [Staff]
  *     parameters:
  *       - name: id
  *         in: path
@@ -178,6 +182,7 @@ const updateStaff = async (req, res) => {
  *   delete:
  *     summary: Delete a staff member by ID
  *     description: Remove a staff member from the database
+ *     tags: [Staff]
  *     parameters:
  *       - name: id
  *         in: path

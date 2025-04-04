@@ -7,6 +7,7 @@ const ObjectId = require("mongodb").ObjectId;
  *   get:
  *     summary: Get all rooms
  *     description: Retrieve a list of all available rooms
+ *     tags: [Rooms]
  *     responses:
  *       200:
  *         description: A JSON array of rooms
@@ -37,6 +38,7 @@ const getAll = async (req, res) => {
  *   get:
  *     summary: Get a single room by ID
  *     description: Retrieve details of a specific room
+ *     tags: [Rooms]
  *     parameters:
  *       - name: id
  *         in: path
@@ -81,6 +83,7 @@ const getSingle = async (req, res) => {
  *   post:
  *     summary: Create a new room
  *     description: Add a new room to the database
+ *     tags: [Rooms]
  *     requestBody:
  *       required: true
  *       content:
@@ -126,6 +129,7 @@ const createRoom = async (req, res) => {
  *   put:
  *     summary: Update a room by ID
  *     description: Modify an existing room's details
+ *     tags: [Rooms]
  *     parameters:
  *       - name: id
  *         in: path
@@ -178,6 +182,7 @@ const updateRoom = async (req, res) => {
  *   delete:
  *     summary: Delete a room by ID
  *     description: Remove a room from the database
+ *     tags: [Rooms]
  *     parameters:
  *       - name: id
  *         in: path
