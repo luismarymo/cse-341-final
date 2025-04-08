@@ -25,6 +25,14 @@ const options = {
         name: "Staff",
         description: "Manage hotel staff",
       },
+      {
+        name: "Bookings",
+        description: "See the hotel booking"
+      },
+      {
+        name: "Users",
+        description:"See the users/clients from the hotel"
+      }
     ],
     components: {
       schemas: {
@@ -133,6 +141,62 @@ const options = {
             },
           },
         },
+        Booking: {
+          type: "object",
+          required: ["roomNumber", "checkInDate", "checkOutDate", "status"],
+          properties: {
+            roomNumber: {
+              type: "string",
+              description: "Room number related to the booking",
+              example: "201",
+            },
+            checkInDate: {
+              type: "string",
+              format: "date",
+              description: "Check-in date for the booking",
+              example: "2025-05-01",
+            },
+            checkOutDate: {
+              type: "string",
+              format: "date",
+              description: "Check-out date for the booking",
+              example: "2025-05-07",
+            },
+            status: {
+              type: "string",
+              description: "Booking status (e.g., confirmed, cancelled)",
+              example: "confirmed",
+            },
+          },
+        },
+        User: {
+          type: "object",
+          required: ["name", "role"],
+          properties: {
+            name: {
+              type: "string",
+              description: "Name of the user/client",
+              example: "John Doe",
+            },
+            email: {
+              type: "string",
+              format: "email",
+              description: "Email address of the user",
+              example: "john.doe@example.com",
+            },
+            role: {
+              type: "string",
+              description: "Role of the user (e.g., client, admin)",
+              example: "client",
+            },
+            oauthId: {
+              type: "string",
+              description: "OAuth ID for third-party authentication",
+              example: "google-oauth2|1234567890",
+            },
+          },
+        }
+          
       },
     },
   },
