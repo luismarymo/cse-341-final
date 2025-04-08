@@ -14,6 +14,9 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid User id to find a User");
+  }
   try {
     const userId = new ObjectId(req.params.id);
     const result = await mongodb
@@ -34,70 +37,88 @@ const getSingle = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const user = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    birthday: req.body.birthday,
-    email: req.body.email,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("users")
-    .insertOne(user);
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error ocurred while updating the user information",
-      );
+  try {
+    const user = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      birthday: req.body.birthday,
+      email: req.body.email,
+    };
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("users")
+      .insertOne(user);
+    if (response.acknowledged) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error ocurred while updating the user information",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const updateUser = async (req, res) => {
-  const userId = new ObjectId(req.params.id);
-  const user = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    birthday: req.body.birthday,
-    email: req.body.email,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("users")
-    .replaceOne({ _id: userId }, user);
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error ocurred while updating the user information",
-      );
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid User id to update a User");
+  }
+  try {
+    const userId = new ObjectId(req.params.id);
+    const user = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      birthday: req.body.birthday,
+      email: req.body.email,
+    };
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("users")
+      .replaceOne({ _id: userId }, user);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error ocurred while updating the user information",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const deleteUser = async (req, res) => {
-  const userId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("users")
-    .deleteOne({ _id: userId });
-  if (response.deletedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error ocurred while deleting the user information.",
-      );
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid User id to delete a User");
+  }
+  try {
+    const userId = new ObjectId(req.params.id);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("users")
+      .deleteOne({ _id: userId });
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error ocurred while deleting the user information.",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 module.exports = {

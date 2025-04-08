@@ -104,29 +104,33 @@ const getSingle = async (req, res) => {
  *         description: Internal server error
  */
 const createStaff = async (req, res) => {
-  const staff = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    role: req.body.role,
-    email: req.body.email,
-    salary: req.body.salary,
-    status: req.body.status,
-    hireDate: req.body.hireDate,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("staff")
-    .insertOne(staff);
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error occurred while updating the staff information",
-      );
+  try {
+    const staff = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      role: req.body.role,
+      email: req.body.email,
+      salary: req.body.salary,
+      status: req.body.status,
+      hireDate: req.body.hireDate,
+    };
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("staff")
+      .insertOne(staff);
+    if (response.acknowledged) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error occurred while updating the staff information",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -157,36 +161,40 @@ const createStaff = async (req, res) => {
  *       412:
  *         description: Precondition Failed
  *       500:
- *         description: Error updating staff member
+ *         description: Internal server error
  */
 const updateStaff = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json("Must use a valid Staff id to update Staff");
   }
-  const staffId = new ObjectId(req.params.id);
-  const staff = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    role: req.body.role,
-    email: req.body.email,
-    salary: req.body.salary,
-    status: req.body.status,
-    hireDate: req.body.hireDate,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("staff")
-    .replaceOne({ _id: staffId }, staff);
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error occurred while updating the staff information",
-      );
+  try {
+    const staffId = new ObjectId(req.params.id);
+    const staff = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      role: req.body.role,
+      email: req.body.email,
+      salary: req.body.salary,
+      status: req.body.status,
+      hireDate: req.body.hireDate,
+    };
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("staff")
+      .replaceOne({ _id: staffId }, staff);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error occurred while updating the staff information",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -209,27 +217,31 @@ const updateStaff = async (req, res) => {
  *       400:
  *         description: Invalid Staff Id
  *       500:
- *         description: Error deleting staff member
+ *         description: Internal server error
  */
 const deleteStaff = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json("Must use a valid Staff id to delete Staff");
   }
-  const staffId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("staff")
-    .deleteOne({ _id: staffId });
-  if (response.deletedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error occurred while deleting the staff information.",
-      );
+  try {
+    const staffId = new ObjectId(req.params.id);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("staff")
+      .deleteOne({ _id: staffId });
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error occurred while deleting the staff information.",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 

@@ -145,29 +145,33 @@ const getAllAvailable = async (req, res) => {
  *         description: Internal server error
  */
 const createRoom = async (req, res) => {
-  const room = {
-    roomNumber: req.body.roomNumber,
-    type: req.body.type,
-    pricePerNight: req.body.pricePerNight,
-    capacity: req.body.capacity,
-    amenities: req.body.amenities,
-    availability: req.body.availability,
-    description: req.body.description,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rooms")
-    .insertOne(room);
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error occurred while updating the room information",
-      );
+  try {
+    const room = {
+      roomNumber: req.body.roomNumber,
+      type: req.body.type,
+      pricePerNight: req.body.pricePerNight,
+      capacity: req.body.capacity,
+      amenities: req.body.amenities,
+      availability: req.body.availability,
+      description: req.body.description,
+    };
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("rooms")
+      .insertOne(room);
+    if (response.acknowledged) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error occurred while updating the room information",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -198,36 +202,40 @@ const createRoom = async (req, res) => {
  *       412:
  *         description: Precondition Failed
  *       500:
- *         description: Error updating room
+ *         description: Internal server error
  */
 const updateRoom = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json("Must use a valid Room id to update a Room");
   }
-  const roomId = new ObjectId(req.params.id);
-  const room = {
-    roomNumber: req.body.roomNumber,
-    type: req.body.type,
-    pricePerNight: req.body.pricePerNight,
-    capacity: req.body.capacity,
-    amenities: req.body.amenities,
-    availability: req.body.availability,
-    description: req.body.description,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rooms")
-    .replaceOne({ _id: roomId }, room);
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error occurred while updating the room information",
-      );
+  try {
+    const roomId = new ObjectId(req.params.id);
+    const room = {
+      roomNumber: req.body.roomNumber,
+      type: req.body.type,
+      pricePerNight: req.body.pricePerNight,
+      capacity: req.body.capacity,
+      amenities: req.body.amenities,
+      availability: req.body.availability,
+      description: req.body.description,
+    };
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("rooms")
+      .replaceOne({ _id: roomId }, room);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error occurred while updating the room information",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -250,27 +258,31 @@ const updateRoom = async (req, res) => {
  *       400:
  *         description: Invalid Room Id
  *       500:
- *         description: Error deleting room
+ *         description: Internal server error
  */
 const deleteRoom = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json("Must use a valid Room id to delete a Room");
   }
-  const roomId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rooms")
-    .deleteOne({ _id: roomId });
-  if (response.deletedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error ||
-          "Some error occurred while deleting the room information.",
-      );
+  try {
+    const roomId = new ObjectId(req.params.id);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("rooms")
+      .deleteOne({ _id: roomId });
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error ||
+            "Some error occurred while deleting the room information.",
+        );
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
