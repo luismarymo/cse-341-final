@@ -46,7 +46,50 @@ const saveStaff = (req, res, next) => {
   });
 };
 
+const saveUser = (req, res, next) => {
+  const validationRule = {
+    name: "required|string",
+    email: "email",
+    role: "required|string",
+    oauthId: "string"
+  };
+  validator(req.body, validationRule, {}, (error, status) => {
+    if (!status) {
+      res.status(412).send({
+        sucess: false,
+        message: "validation failed",
+        data: error,
+      });
+    } else {
+      next();
+    }
+  });
+};
+
+const saveBooking = (req, res, next) => {
+  const validationRule = {
+    roomNumber: "required|string",
+    checkInDate: "required|string",
+    checkOutDate: "required|string",
+    status: "required|string"
+  };
+  validator(req.body, validationRule, {}, (error, status) => {
+    if (!status) {
+      res.status(412).send({
+        sucess: false,
+        message: "validation failed",
+        data: error,
+      });
+    } else {
+      next();
+    }
+  });
+};
+
+
 module.exports = {
   saveRoom,
   saveStaff,
+  saveUser,
+  saveBooking
 };
