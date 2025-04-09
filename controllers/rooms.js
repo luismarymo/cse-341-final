@@ -141,6 +141,8 @@ const getAllAvailable = async (req, res) => {
  *         description: Room successfully created
  *       412:
  *         description: Precondition Failed
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */
@@ -199,6 +201,8 @@ const createRoom = async (req, res) => {
  *         description: Room successfully updated
  *       400:
  *         description: Invalid Room Id
+ *       401:
+ *         description: Unauthorized
  *       412:
  *         description: Precondition Failed
  *       500:
@@ -257,6 +261,8 @@ const updateRoom = async (req, res) => {
  *         description: Room successfully deleted
  *       400:
  *         description: Invalid Room Id
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */

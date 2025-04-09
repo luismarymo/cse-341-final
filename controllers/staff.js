@@ -19,6 +19,8 @@ const ObjectId = require("mongodb").ObjectId;
  *                 $ref: '#/components/schemas/Staff'
  *       400:
  *         description: Bad request
+ *       401:
+ *         description: Unauthorized
  */
 const getAll = async (req, res) => {
   try {
@@ -54,6 +56,8 @@ const getAll = async (req, res) => {
  *               $ref: '#/components/schemas/Staff'
  *       400:
  *         description: Invalid Staff Id
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Staff member not found
  *       500:
@@ -98,6 +102,8 @@ const getSingle = async (req, res) => {
  *     responses:
  *       204:
  *         description: Staff member successfully created
+ *       401:
+ *         description: Unauthorized
  *       412:
  *         description: Precondition Failed
  *       500:
@@ -158,6 +164,8 @@ const createStaff = async (req, res) => {
  *         description: Staff member successfully updated
  *       400:
  *         description: Invalid Staff Id
+ *       401:
+ *         description: Unauthorized
  *       412:
  *         description: Precondition Failed
  *       500:
@@ -216,6 +224,8 @@ const updateStaff = async (req, res) => {
  *         description: Staff member successfully deleted
  *       400:
  *         description: Invalid Staff Id
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */

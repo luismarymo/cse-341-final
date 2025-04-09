@@ -19,6 +19,8 @@ const ObjectId = require("mongodb").ObjectId;
  *                 $ref: '#/components/schemas/User'
  *       400:
  *         description: Bad request
+ *       401:
+ *         description: Unauthorized
  */
 const getAll = async (req, res) => {
   try {
@@ -54,6 +56,8 @@ const getAll = async (req, res) => {
  *               $ref: '#/components/schemas/User'
  *       400:
  *         description: Invalid User Id
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: User not found
  *       500:
@@ -98,6 +102,8 @@ const getSingle = async (req, res) => {
  *     responses:
  *       204:
  *         description: User successfully created
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */
@@ -150,6 +156,8 @@ const createUser = async (req, res) => {
  *         description: User successfully updated
  *       400:
  *         description: Invalid User Id
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */
@@ -200,6 +208,8 @@ const updateUser = async (req, res) => {
  *         description: User successfully deleted
  *       400:
  *         description: Invalid User Id
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */

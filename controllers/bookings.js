@@ -158,6 +158,8 @@ const createBooking = async (req, res) => {
  *         description: Booking successfully updated
  *       400:
  *         description: Invalid Booking Id
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */
@@ -211,6 +213,8 @@ const updateBooking = async (req, res) => {
  *         description: Booking successfully deleted
  *       400:
  *         description: Invalid Booking Id
+ *       401:
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */

@@ -49,7 +49,7 @@ const saveStaff = (req, res, next) => {
 const saveUser = (req, res, next) => {
   const validationRule = {
     name: "required|string",
-    email: "email",
+    email: "email|required",
     role: "required|string",
     oauthId: "string",
   };

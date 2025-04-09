@@ -171,7 +171,7 @@ const options = {
         },
         User: {
           type: "object",
-          required: ["name", "role"],
+          required: ["name", "email", "role"],
           properties: {
             name: {
               type: "string",
@@ -192,7 +192,7 @@ const options = {
             oauthId: {
               type: "string",
               description: "OAuth ID for third-party authentication",
-              example: "google-oauth2|1234567890",
+              example: "github-oauth2|1234567890",
             },
           },
         },
