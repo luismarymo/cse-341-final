@@ -117,7 +117,9 @@ const createUser = async (req, res) => {
     if (response.acknowledged) {
       res.status(204).send();
     } else {
-      res.status(500).json(response.error || "Some error occurred while creating the user");
+      res
+        .status(500)
+        .json(response.error || "Some error occurred while creating the user");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -161,7 +163,7 @@ const updateUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       role: req.body.role,
-      oauthId: req.body.oauthId
+      oauthId: req.body.oauthId,
     };
     const response = await mongodb
       .getDatabase()
@@ -171,7 +173,9 @@ const updateUser = async (req, res) => {
     if (response.modifiedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(500).json(response.error || "Some error occurred while updating the user");
+      res
+        .status(500)
+        .json(response.error || "Some error occurred while updating the user");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -213,7 +217,9 @@ const deleteUser = async (req, res) => {
     if (response.deletedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(500).json(response.error || "Some error occurred while deleting the user");
+      res
+        .status(500)
+        .json(response.error || "Some error occurred while deleting the user");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

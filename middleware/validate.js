@@ -51,7 +51,7 @@ const saveUser = (req, res, next) => {
     name: "required|string",
     email: "email",
     role: "required|string",
-    oauthId: "string"
+    oauthId: "string",
   };
   validator(req.body, validationRule, {}, (error, status) => {
     if (!status) {
@@ -71,7 +71,7 @@ const saveBooking = (req, res, next) => {
     roomNumber: "required|string",
     checkInDate: "required|string",
     checkOutDate: "required|string",
-    status: "required|string"
+    status: "required|string",
   };
   validator(req.body, validationRule, {}, (error, status) => {
     if (!status) {
@@ -86,10 +86,9 @@ const saveBooking = (req, res, next) => {
   });
 };
 
-
 module.exports = {
   saveRoom,
   saveStaff,
   saveUser,
-  saveBooking
+  saveBooking,
 };

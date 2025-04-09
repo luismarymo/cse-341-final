@@ -27,12 +27,12 @@ const options = {
       },
       {
         name: "Bookings",
-        description: "See the hotel booking"
+        description: "See the hotel booking",
       },
       {
         name: "Users",
-        description:"See the users/clients from the hotel"
-      }
+        description: "See the users/clients from the hotel",
+      },
     ],
     components: {
       schemas: {
@@ -195,8 +195,7 @@ const options = {
               example: "google-oauth2|1234567890",
             },
           },
-        }
-          
+        },
       },
     },
   },

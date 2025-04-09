@@ -3,7 +3,6 @@ const router = require("express").Router();
 const bookingsController = require("../controllers/bookings");
 const validation = require("../middleware/validate");
 
-
 router.get("/", bookingsController.getAll);
 router.get("/:id", bookingsController.getSingle);
 router.post("/", validation.saveBooking, bookingsController.createBooking);

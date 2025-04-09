@@ -22,7 +22,11 @@ const ObjectId = require("mongodb").ObjectId;
  */
 const getAll = async (req, res) => {
   try {
-    const result = await mongodb.getDatabase().db().collection("bookings").find();
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("bookings")
+      .find();
     result.toArray().then((bookings) => {
       res.setHeader("Content-Type", "application/json");
       res.status(200).json(bookings);
@@ -61,11 +65,17 @@ const getAll = async (req, res) => {
  */
 const getSingle = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).json("Must use a valid Booking id to find a Booking");
+    return res
+      .status(400)
+      .json("Must use a valid Booking id to find a Booking");
   }
   try {
     const bookingId = new ObjectId(req.params.id);
-    const result = await mongodb.getDatabase().db().collection("bookings").findOne({ _id: bookingId });
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("bookings")
+      .findOne({ _id: bookingId });
 
     if (result) {
       res.setHeader("Content-Type", "application/json");
@@ -106,12 +116,18 @@ const createBooking = async (req, res) => {
       status: req.body.status,
     };
 
-    const response = await mongodb.getDatabase().db().collection("bookings").insertOne(booking);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("bookings")
+      .insertOne(booking);
 
     if (response.acknowledged) {
       res.status(204).send();
     } else {
-      res.status(500).json({ message: "Some error occurred while creating the booking." });
+      res
+        .status(500)
+        .json({ message: "Some error occurred while creating the booking." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -147,7 +163,9 @@ const createBooking = async (req, res) => {
  */
 const updateBooking = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).json("Must use a valid Booking id to update Booking");
+    return res
+      .status(400)
+      .json("Must use a valid Booking id to update Booking");
   }
   try {
     const bookingId = new ObjectId(req.params.id);
@@ -158,11 +176,17 @@ const updateBooking = async (req, res) => {
       status: req.body.status,
     };
 
-    const response = await mongodb.getDatabase().db().collection("bookings").replaceOne({ _id: bookingId }, booking);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("bookings")
+      .replaceOne({ _id: bookingId }, booking);
     if (response.modifiedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(500).json({ message: "Some error occurred while updating the booking." });
+      res
+        .status(500)
+        .json({ message: "Some error occurred while updating the booking." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -192,15 +216,23 @@ const updateBooking = async (req, res) => {
  */
 const deleteBooking = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).json("Must use a valid Booking id to delete Booking");
+    return res
+      .status(400)
+      .json("Must use a valid Booking id to delete Booking");
   }
   try {
     const bookingId = new ObjectId(req.params.id);
-    const response = await mongodb.getDatabase().db().collection("bookings").deleteOne({ _id: bookingId });
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("bookings")
+      .deleteOne({ _id: bookingId });
     if (response.deletedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(500).json({ message: "Some error occurred while deleting the booking." });
+      res
+        .status(500)
+        .json({ message: "Some error occurred while deleting the booking." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

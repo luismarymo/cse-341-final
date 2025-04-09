@@ -2,11 +2,23 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongodb = require("./data/database");
 const app = express();
+const passport = require("passport");
+const session = require("express-session");
+const GithubStrategy = require("passport-github2").Strategy;
+const cors = require("cors");
 
 const port = process.env.PORT || 5000;
 
 app
   .use(bodyParser.json())
+  .use(
+    session({
+      secret: "secret",
+      resave: false,
+      saveUninitialized: true,
+    }),
+  )
+  .use(passport.session())
   .use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -19,7 +31,30 @@ app
     );
     next();
   })
+  .use(cors({ methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] }))
+  .use(cors({ origin: "*" }))
   .use("/", require("./routes"));
+
+passport.use(
+  new GithubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL,
+    },
+    function (accessToken, refreshToken, profile, done) {
+      return done(null, profile);
+    },
+  ),
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 process.on("uncaughtException", (err, origin) => {
   console.log(
