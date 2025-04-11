@@ -110,10 +110,10 @@ const getSingle = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const user = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      birthday: req.body.birthday,
+      name: req.body.name,
       email: req.body.email,
+      role: req.body.role,
+      oauthId: req.body.oauthId,
     };
     const response = await mongodb
       .getDatabase()
