@@ -2,6 +2,7 @@ import { defineConfig } from "eslint/config";
 import globals from "globals";
 import js from "@eslint/js";
 import stylisticJs from "@stylistic/eslint-plugin-js";
+import jest from "eslint-plugin-jest";
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs}"] },
@@ -18,6 +19,12 @@ export default defineConfig([
   {
     files: ["**/*.{js,mjs,cjs}"],
     plugins: { "@stylistic/js": stylisticJs },
+  },
+  {
+    "files": ["__test__/**"],
+    "plugins": [ jest ],
+    "extends": ["plugin:jest/recommended"],
+    "rules": { "jest/prefer-expect-assertions": "off" }
   },
   {
     rules: {
