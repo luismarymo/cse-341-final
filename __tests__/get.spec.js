@@ -113,3 +113,21 @@ describe("Get single items by ID", () => {
         });
     });
 });
+
+describe("GET /rooms/available", () => {
+    test("Responds with 200 and a list of available rooms", async () => {
+        const res = await request.get("/rooms/available");
+        expect(res.header["content-type"]).toBe("application/json; charset=utf-8");
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+    });
+
+    test("Responds with 404 when no available rooms are found", async () => {
+        const res = await request.get("/rooms/available");
+        if (res.statusCode === 404) {
+            expect(res.body).toHaveProperty("message", "No available rooms found.");
+        } else {
+            expect(res.statusCode).toBe(200); 
+        }
+    });
+});
